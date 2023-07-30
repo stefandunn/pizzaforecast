@@ -10,8 +10,8 @@ export default function Home() {
         <Image
           src={pizzaImage}
           alt="Pizza graphic"
-          width={pizzaImage.width / 2}
-          height={pizzaImage.height / 2}
+          width={pizzaImage.width / 4}
+          height={pizzaImage.height / 4}
           className="object-cover object-center absolute left-0 top-0 w-full h-full"
           priority
         />
