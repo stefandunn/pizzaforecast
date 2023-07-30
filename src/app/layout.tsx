@@ -26,8 +26,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={clsx(displayFont.variable, sansSerifFont.variable)}>
+    <html
+      lang="en"
+      className={clsx(displayFont.variable, sansSerifFont.variable)}
+    >
+      <body>
         <Header />
         {children}
       </body>
