@@ -16,6 +16,7 @@ export default function Home() {
           alt="Pizza graphic"
           width={pizzaImage.width / (isMobile ? 6 : 4)}
           height={pizzaImage.height / (isMobile ? 6 : 4)}
+          quality={isMobile ? 55 : 70}
           className="object-cover object-center absolute left-0 top-0 w-full h-full"
           priority
         />
