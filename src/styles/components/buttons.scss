@@ -1,0 +1,27 @@
+.button {
+  @apply px-5 py-2 font-sans-serif rounded-full;
+
+  &.button-primary {
+    @apply bg-indigo text-white transition-all hover:bg-blue hover:shadow-md;
+
+    &.button-loading .button-loader {
+      @apply text-white;
+    }
+  }
+
+  &.button-secondary {
+    @apply bg-yellow text-indigo transition-all hover:bg-pink hover:shadow-md hover:text-white;
+
+    &.button-loading .button-loader {
+      @apply text-indigo;
+    }
+  }
+
+  &.button-loading {
+    @apply text-transparent;
+  }
+
+  &.button-loading .button-loader {
+    @apply absolute top-0 left-0 w-full h-full flex items-center justify-center;
+  }
+}
