@@ -22,9 +22,17 @@ export const Weather: FC<{ className?: string }> = ({ className }) => {
     }, [coordinates]);
 
   useEffect(() => {
+    const weather = globalState.get("weather", undefined);
+
+    if (typeof weather !== "undefined") {
+      setWeather(weather);
+      return;
+    }
+
     if (!longitude || !latitude) {
       return;
     }
+
     setWeatherError("");
     fetch(`/api/weather?longitude=${longitude}&latitude=${latitude}`)
       .then(async (response) => {
@@ -35,9 +43,11 @@ export const Weather: FC<{ className?: string }> = ({ className }) => {
         return response.json();
       })
       .then((data: WeatherResponse) => {
+        globalState.set("weather", data);
         setWeather(data);
       })
       .catch((e: Error) => {
+        globalState.remove("weather");
         setWeather(undefined);
         setWeatherError(e.message);
       });
@@ -79,6 +89,16 @@ export const Weather: FC<{ className?: string }> = ({ className }) => {
   const weatherBlockStyleClass =
     "h-[200px] bg-indigo rounded-xl p-3 text-white";
 
+  if (weatherError) {
+    return (
+      <div
+        className={clsx("alert flex items-center justify-center", className)}
+      >
+        {weatherError}
+      </div>
+    );
+  }
+
   if (typeof weather === "undefined") {
     return (
       <div
@@ -92,16 +112,6 @@ export const Weather: FC<{ className?: string }> = ({ className }) => {
           <span className="block mb-3">Loading weather</span>
           <CgSpinnerTwoAlt className="inline text-xl animate-spin" />
         </span>
-      </div>
-    );
-  }
-
-  if (weatherError) {
-    return (
-      <div
-        className={clsx("alert flex items-center justify-center", className)}
-      >
-        {weatherError}
       </div>
     );
   }
