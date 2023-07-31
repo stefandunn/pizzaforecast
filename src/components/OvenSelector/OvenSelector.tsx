@@ -1,14 +1,32 @@
-import { FC } from "react";
-import { OvenProps } from "./Oven/Oven.types";
-import { Oven } from "./Oven/Oven";
-import { headers } from "next/headers";
-import { getDevice } from "@/utils/helpers";
+"use client";
 
-export const OvenSelector: FC = () => {
-  const isMobile =
-    getDevice(headers().get("user-agent") as string) !== "desktop";
+import { FC, useEffect, useRef } from "react";
+import { Selector } from "../Selector/Selector";
+import { useRecoilValue } from "recoil";
+import { selectorOptionState } from "@/states/selector.states";
 
-  const ovens: OvenProps[] = [
+export const OvenSelector: FC<{ className?: string }> = ({ className }) => {
+  const oven = useRecoilValue(selectorOptionState("oven"));
+  const prevOvenRef = useRef<typeof oven>(oven);
+
+  useEffect(() => {
+    if (!oven) {
+      return;
+    }
+    if (!prevOvenRef.current) {
+      prevOvenRef.current = oven;
+      const fuelSelector = document.getElementById("fuel-selector");
+      if (fuelSelector) {
+        setTimeout(() => {
+          (fuelSelector as HTMLDivElement).scrollIntoView({
+            behavior: "smooth",
+          });
+        }, 100);
+      }
+    }
+  }, [oven]);
+
+  const ovens = [
     {
       name: "Karu 12",
       imageSrc:
@@ -45,16 +63,10 @@ export const OvenSelector: FC = () => {
         "https://cdn.accentuate.io/6916397105249/1680174214737/Volt-12.png",
     },
   ];
-
   return (
-    <div className="oven-selector">
-      <ul>
-        {ovens.map((oven) => (
-          <li key={oven.name}>
-            <Oven {...oven} />
-          </li>
-        ))}
-      </ul>
+    <div className={className} id="fuel-selector">
+      <h2>Which oven do you have?</h2>
+      <Selector {...{ selectorId: "oven", options: ovens }} />
     </div>
   );
 };

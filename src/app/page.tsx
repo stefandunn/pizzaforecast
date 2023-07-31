@@ -3,6 +3,7 @@ import pizzaImage from "../../public/images/pizza-weather.jpg";
 import { LocationForm } from "@/components/LocationForm/LocationForm";
 import { headers } from "next/headers";
 import { getDevice } from "@/utils/helpers";
+import { Resetter } from "@/components/Resetter/Resetter";
 
 export default function Home() {
   const isMobile =
@@ -36,6 +37,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <Resetter />
     </main>
   );
 }

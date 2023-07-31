@@ -1,16 +1,16 @@
 "use client";
 
-import { WeatherResponse } from "@/app/api/weather/route";
-import { globalState } from "@/utils/state";
 import clsx from "clsx";
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, useMemo } from "react";
 import { CgSpinnerTwoAlt } from "react-icons/cg";
 import { WeatherDay } from "./WeatherDay/WeatherDay";
+import { useRecoilValue, useRecoilValueLoadable } from "recoil";
+import { locationState } from "@/states/location.states";
+import { weatherState } from "@/states/weather.states";
 
 export const Weather: FC<{ className?: string }> = ({ className }) => {
-  const [weather, setWeather] = useState<WeatherResponse>();
-  const [weatherError, setWeatherError] = useState<string>("");
-  const coordinates = globalState.get<GeolocationCoordinates>("position");
+  const { state, contents: weather } = useRecoilValueLoadable(weatherState);
+  const coordinates = useRecoilValue(locationState);
 
   const { latitude, longitude }: { latitude?: number; longitude?: number } =
     useMemo(() => {
@@ -21,40 +21,8 @@ export const Weather: FC<{ className?: string }> = ({ className }) => {
       return coordinates;
     }, [coordinates]);
 
-  useEffect(() => {
-    const weather = globalState.get("weather", undefined);
-
-    if (typeof weather !== "undefined") {
-      setWeather(weather);
-      return;
-    }
-
-    if (!longitude || !latitude) {
-      return;
-    }
-
-    setWeatherError("");
-    fetch(`/api/weather?longitude=${longitude}&latitude=${latitude}`)
-      .then(async (response) => {
-        if (!response.ok) {
-          const { error } = await response.json();
-          throw new Error(error);
-        }
-        return response.json();
-      })
-      .then((data: WeatherResponse) => {
-        globalState.set("weather", data);
-        setWeather(data);
-      })
-      .catch((e: Error) => {
-        globalState.remove("weather");
-        setWeather(undefined);
-        setWeatherError(e.message);
-      });
-  }, [latitude, longitude]);
-
   const weatherSummary = useMemo((): string => {
-    if (!weather) {
+    if (state !== "hasValue") {
       return "";
     }
     const conditions = weather.forecast.forecastday.map(
@@ -67,6 +35,12 @@ export const Weather: FC<{ className?: string }> = ({ className }) => {
       (condition) =>
         condition.toLocaleLowerCase().includes("cloudy") ||
         condition.toLocaleLowerCase().includes("overcast")
+    );
+
+    const rainyDays = conditions.filter(
+      (condition) =>
+        condition.toLocaleLowerCase().includes("rain") ||
+        condition.toLocaleLowerCase().includes("shower")
     );
 
     if (sunnyDays.length === 3) {
@@ -83,23 +57,27 @@ export const Weather: FC<{ className?: string }> = ({ className }) => {
       return "There is one or two fair days, depending on the wind, it good be good for cooking pizza.";
     }
 
-    return "The upcoming weather is not looking great.";
-  }, [weather]);
+    if (rainyDays.length > 1) {
+      return "The upcoming weather is not looking great, making pizza will be a little harder... unless you have a Volt!";
+    }
+
+    return "The upcoming weather is not looing the best, but there's still a chance to make pizza.";
+  }, [state, weather]);
 
   const weatherBlockStyleClass =
     "h-[200px] bg-indigo rounded-xl p-3 text-white";
 
-  if (weatherError) {
+  if (state === "hasError") {
     return (
       <div
         className={clsx("alert flex items-center justify-center", className)}
       >
-        {weatherError}
+        {(weather as Error).message}
       </div>
     );
   }
 
-  if (typeof weather === "undefined") {
+  if (state === "loading") {
     return (
       <div
         className={clsx(
@@ -119,7 +97,7 @@ export const Weather: FC<{ className?: string }> = ({ className }) => {
   return (
     <div className={clsx(weatherBlockStyleClass, className, "weather")}>
       <h3 className="text-lg text-center mb-3">{weatherSummary}</h3>
-      <ul className="flex flex-col sm:flex-row items-stretch gap-5">
+      <ul className="flex flex-row flex-nowrap overflow-auto sm:overflow-hidden items-stretch gap-5">
         {weather.forecast.forecastday.slice(1).map((dayData, index) => (
           <WeatherDay {...dayData} key={index} />
         ))}

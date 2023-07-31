@@ -4,8 +4,9 @@ import { FC, KeyboardEvent, useState } from "react";
 import { LocatorButton } from "../LocatorButton/LocatorButton";
 import { Button } from "../Button/Button";
 import { HiSearch } from "react-icons/hi";
-import { globalState } from "@/utils/state";
 import { useRouter } from "next/navigation";
+import { useSetRecoilState } from "recoil";
+import { locationState } from "@/states/location.states";
 
 export const LocationForm: FC = () => {
   const [disablePostcode, setDisablePostcode] = useState<boolean>(false);
@@ -13,6 +14,7 @@ export const LocationForm: FC = () => {
   const [postcodeLoading, setPostcodeLoading] = useState<boolean>(false);
   const [locateError, setLocateError] = useState<string>("");
   const [postcodeFetchError, setPostcodeFetchError] = useState<string>("");
+  const setLocation = useSetRecoilState(locationState);
 
   const router = useRouter();
 
@@ -37,14 +39,12 @@ export const LocationForm: FC = () => {
       .catch((error: Error) => {
         setPostcodeLoading(false);
         setPostcodeFetchError(error.message);
-        console.log({ error: error.message });
       });
   };
 
   const onLocationFound = (position: GeolocationCoordinates) => {
     const { longitude, latitude } = position;
-    globalState.set("position", { longitude, latitude });
-    globalState.remove("weather");
+    setLocation({ longitude, latitude });
     router.push("/make-pizza");
   };
 

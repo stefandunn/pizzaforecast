@@ -1,4 +1,5 @@
 import { Header } from "@/components/Header/Header";
+import { AllProviders } from "@/providers/Index";
 import "@/styles/globals.scss";
 import clsx from "clsx";
 import type { Metadata } from "next";
@@ -32,7 +33,7 @@ export default function RootLayout({
     >
       <body>
         <Header />
-        {children}
+        <AllProviders>{children}</AllProviders>
       </body>
     </html>
   );
