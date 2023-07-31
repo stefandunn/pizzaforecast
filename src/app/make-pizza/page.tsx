@@ -8,7 +8,7 @@ import { NextPage } from "next";
 const MakePizzaPage: NextPage = () => {
   return (
     <main className="flex items-start mt-[100px] justify-center flex-grow p-5">
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto max-w-5xl w-full">
         <h1 className="text-pink mb-6">Let&apos;s make pizza</h1>
         <Weather className="mb-8" />
         <OvenSelector className="mb-8" />
