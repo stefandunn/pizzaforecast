@@ -9,8 +9,8 @@ export default function Home() {
     getDevice(headers().get("user-agent") as string) !== "desktop";
 
   return (
-    <main className="flex justify-stretch md:items-stretch md:justify-normal flex-col-reverse md:flex-row flex-grow">
-      <div className="md:w-1/2 md:h-auto basis-1/2 flex-grow relative">
+    <main className="flex justify-stretch sm:items-stretch sm:justify-normal flex-col-reverse sm:flex-row flex-grow">
+      <div className="sm:w-1/2 sm:h-auto basis-1/2 flex-grow relative">
         <Image
           src={pizzaImage}
           alt="Pizza graphic"
@@ -21,7 +21,7 @@ export default function Home() {
           priority
         />
       </div>
-      <div className="p-3 md:w-1/2 md:h-auto basis-1/2 flex-grow relative flex items-center justify-center">
+      <div className="p-3 sm:w-1/2 sm:h-auto basis-1/2 flex-grow relative flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-pink">Pizza Forecast</h1>
           <h2 className="text-indigo">
