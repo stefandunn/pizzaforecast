@@ -1,0 +1,23 @@
+.oven-selector {
+  max-width: calc(100vw - 2.5rem);
+
+  ul {
+    @apply flex flex-nowrap overflow-scroll gap-5 py-5;
+
+    > li:last-of-type {
+      @apply mr-5;
+    }
+  }
+
+  .oven {
+    @apply bg-white rounded-full p-5 overflow-hidden w-[220px] h-[220px] flex items-center justify-center text-center cursor-pointer transition-all hover:border hover:border-blue;
+
+    &.oven-active {
+      @apply border border-indigo shadow-lg;
+    }
+
+    img {
+      @apply w-[100px] h-[100px];
+    }
+  }
+}

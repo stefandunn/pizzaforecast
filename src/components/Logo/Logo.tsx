@@ -1,13 +1,27 @@
+"use client";
+
 import clsx from "clsx";
 import Image from "next/image";
 import { FC } from "react";
-import { pathname } from "@/utils/url";
+import { useRouter } from "next/navigation";
 
-export const Logo: FC = () => {
-  const isNotHome = pathname() !== "/";
+export const Logo: FC<{ isNotHome: boolean }> = ({ isNotHome }) => {
+  const router = useRouter();
+
+  const handleLogoClick = () => {
+    if (!isNotHome) {
+      return;
+    }
+
+    router.push("/");
+  };
 
   return (
-    <div id="logo" className={clsx(isNotHome && "cursor-pointer")}>
+    <div
+      id="logo"
+      className={clsx(isNotHome && "cursor-pointer")}
+      onClick={handleLogoClick}
+    >
       <Image
         src="/images/pizza-slice.png"
         width={60}

@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, MouseEventHandler, useState } from "react";
+import { FC, KeyboardEvent, useState } from "react";
 import { LocatorButton } from "../LocatorButton/LocatorButton";
 import { Button } from "../Button/Button";
 import { HiSearch } from "react-icons/hi";
@@ -16,8 +16,8 @@ export const LocationForm: FC = () => {
 
   const router = useRouter();
 
-  const handlePostcodeSearch: MouseEventHandler<HTMLButtonElement> = (e) => {
-    if (!postcode.match(/^([a-zA-Z]{1,2}[a-zA-Z\d]{1,2})\s(\d[a-zA-Z]{2})$/)) {
+  const handlePostcodeSearch = () => {
+    if (!postcode.match(/^([a-zA-Z]{1,2}[a-zA-Z\d]{1,2})\s?(\d[a-zA-Z]{2})$/)) {
       alert("Your postcode is not a valid UK postcode");
       return;
     }
@@ -43,7 +43,7 @@ export const LocationForm: FC = () => {
 
   const onLocationFound = (position: GeolocationCoordinates) => {
     globalState.set("position", position);
-    router.push("/oven");
+    router.push("/make-pizza");
   };
 
   return (
@@ -56,6 +56,11 @@ export const LocationForm: FC = () => {
           type="text"
           className="input uppercase placeholder:normal-case"
           placeholder="Postcode"
+          onKeyUp={(e: KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === "Enter" && e.currentTarget.value) {
+              handlePostcodeSearch();
+            }
+          }}
         />
         <Button onClick={handlePostcodeSearch} loading={postcodeLoading}>
           <HiSearch />

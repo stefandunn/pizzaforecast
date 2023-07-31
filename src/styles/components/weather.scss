@@ -1,0 +1,16 @@
+.weather {
+  @apply h-auto;
+
+  .weather-day {
+    @apply bg-white shadow-md p-3 rounded-lg text-center bg-opacity-25;
+    flex-basis: calc(100% / 3);
+
+    .quick-stats {
+      @apply inline-flex items-center justify-between w-full mt-2 bg-pink px-3 py-2 rounded-lg;
+
+      .stat {
+        @apply flex flex-col items-center gap-1;
+      }
+    }
+  }
+}

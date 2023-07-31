@@ -27,9 +27,9 @@ class StateStorage {
     document.dispatchEvent(event);
   }
 
-  get<T>(key: string, fallback: T): T {
+  get<T>(key: string, fallback?: T): T | undefined {
     const item = this.store?.getItem(key);
-    if (!item) return fallback;
+    if (!item) return fallback || undefined;
 
     return JSON.parse(item);
   }

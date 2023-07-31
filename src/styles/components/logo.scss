@@ -1,0 +1,15 @@
+#logo {
+  @apply relative inline-block;
+
+  img {
+    @apply relative z-10;
+  }
+
+  span {
+    @apply text-xs whitespace-nowrap max-w-0 overflow-hidden block transition-all duration-500 absolute top-1/2 -ml-3 -mt-[.65rem] py-1 px-0 left-1/2 bg-indigo rounded-full text-white;
+  }
+
+  &:hover span {
+    @apply left-full max-w-[150px] px-3;
+  }
+}
