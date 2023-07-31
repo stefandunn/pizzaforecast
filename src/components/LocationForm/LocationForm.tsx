@@ -44,9 +44,8 @@ export const LocationForm: FC = () => {
   const onLocationFound = (position: GeolocationCoordinates) => {
     const { longitude, latitude } = position;
     globalState.set("position", { longitude, latitude });
-    setTimeout(() => {
-      router.push("/make-pizza");
-    }, 100);
+    globalState.remove("weather");
+    router.push("/make-pizza");
   };
 
   return (
