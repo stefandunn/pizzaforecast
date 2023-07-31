@@ -54,7 +54,7 @@ export const LocationForm: FC = () => {
           value={postcode}
           onChange={(e) => setPostcode(e.target.value)}
           type="text"
-          className="input uppercase placeholder:normal-case"
+          className="input uppercase placeholder:normal-case w-full max-w-[300px]"
           placeholder="Postcode"
           onKeyUp={(e: KeyboardEvent<HTMLInputElement>) => {
             if (e.key === "Enter" && e.currentTarget.value) {
