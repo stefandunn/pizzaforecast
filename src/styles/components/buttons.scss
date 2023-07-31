@@ -24,4 +24,8 @@
   &.button-loading .button-loader {
     @apply absolute top-0 left-0 w-full h-full flex items-center justify-center;
   }
+
+  &[disabled] {
+    @apply opacity-50 cursor-not-allowed;
+  }
 }

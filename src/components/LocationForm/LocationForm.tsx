@@ -42,8 +42,11 @@ export const LocationForm: FC = () => {
   };
 
   const onLocationFound = (position: GeolocationCoordinates) => {
-    globalState.set("position", position);
-    router.push("/make-pizza");
+    const { longitude, latitude } = position;
+    globalState.set("position", { longitude, latitude });
+    setTimeout(() => {
+      router.push("/make-pizza");
+    }, 100);
   };
 
   return (
@@ -72,6 +75,7 @@ export const LocationForm: FC = () => {
       <div className="mt-4">
         {locateError.length > 0 && <p className="mb-2 error">{locateError}</p>}
         <LocatorButton
+          disabled={postcodeLoading}
           onClick={() => {
             setLocateError("");
             setDisablePostcode(true);

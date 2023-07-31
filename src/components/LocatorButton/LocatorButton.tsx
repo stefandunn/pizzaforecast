@@ -2,13 +2,13 @@
 
 import { FC, MouseEventHandler, useState } from "react";
 import { Button } from "../Button/Button";
-import { globalState } from "@/utils/state";
 import { LocationButtonProps } from "./LocatorButton.types";
 
 export const LocatorButton: FC<LocationButtonProps> = ({
   onClick: onButtonClick,
   onError,
   onSuccess,
+  disabled = false,
 }) => {
   const [locating, setLocating] = useState<boolean>(false);
 
@@ -19,7 +19,6 @@ export const LocatorButton: FC<LocationButtonProps> = ({
     setLocating(true);
     getLocation()
       .then((position) => {
-        globalState.set("location", position);
         if (onSuccess) {
           onSuccess(position);
         }
@@ -28,8 +27,6 @@ export const LocatorButton: FC<LocationButtonProps> = ({
         if (onError) {
           onError("Could not find location");
         }
-      })
-      .finally(() => {
         setLocating(false);
       });
   };
@@ -53,7 +50,12 @@ export const LocatorButton: FC<LocationButtonProps> = ({
     });
 
   return (
-    <Button primary loading={locating} onClick={handleLocateMe}>
+    <Button
+      primary
+      disabled={disabled}
+      loading={locating}
+      onClick={handleLocateMe}
+    >
       Locate me
     </Button>
   );
