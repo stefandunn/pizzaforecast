@@ -10,8 +10,7 @@ export const selectorOptionState = atomFamily<
   SelectorTypes
 >({
   key: "selectorOption",
-  default: (param) =>
-    localStorageState.get<string | undefined>(`option-${param}`),
+  default: (param) => localStorageState.get<string>(`option-${param}`),
   effects: (param) => [
     ({ onSet }) => {
       onSet((newValue) => {

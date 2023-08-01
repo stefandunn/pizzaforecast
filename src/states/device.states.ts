@@ -1,3 +1,5 @@
+"use client";
+
 import { atom } from "recoil";
 
 export type Devices = "base" | "mobile" | "tablet" | "desktop";

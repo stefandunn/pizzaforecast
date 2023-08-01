@@ -13,3 +13,6 @@ export const getDevice = (userAgent?: string) => {
   const { type } = parser.getDevice();
   return type || "desktop";
 };
+
+export const isServer = typeof window === "undefined";
+export const isClient = !isServer;
