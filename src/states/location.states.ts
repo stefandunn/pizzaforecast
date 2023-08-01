@@ -1,8 +1,24 @@
-import { atom } from "recoil";
+"use client";
 
-export const locationState = atom<
-  Pick<GeolocationCoordinates, "longitude" | "latitude"> | undefined
->({
+import { atom } from "recoil";
+import { localStorageState } from "./localStorageState";
+
+type Location =
+  | Pick<GeolocationCoordinates, "longitude" | "latitude">
+  | undefined;
+
+export const locationState = atom<Location>({
   key: "location",
-  default: undefined,
+  default: localStorageState.get<Location>("location"),
+  effects: [
+    ({ onSet }) => {
+      onSet((newValue) => {
+        if (typeof newValue !== "undefined") {
+          localStorageState.set("location", newValue);
+        } else {
+          localStorageState.remove("location");
+        }
+      });
+    },
+  ],
 });

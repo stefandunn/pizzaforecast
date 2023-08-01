@@ -2,12 +2,12 @@ import { selector } from "recoil";
 import { locationState } from "./location.states";
 import { WeatherResponse } from "@/app/api/weather/route";
 
-export const weatherState = selector<WeatherResponse>({
+export const weatherState = selector<WeatherResponse | undefined>({
   key: "weather",
   get: async ({ get }) => {
     const location = get(locationState);
     if (!location) {
-      throw new Error("No location has been established");
+      return;
     }
     const { longitude, latitude } = location;
 

@@ -15,8 +15,6 @@ export const Option: FC<OptionProps> = ({
 }) => {
   const [option, setOption] = useRecoilState(selectorOptionState(selectorId));
 
-  const isActive = option === name;
-
   return (
     <>
       <input
@@ -29,7 +27,7 @@ export const Option: FC<OptionProps> = ({
         id={`oven-${name}`}
       />
       <label
-        className={clsx("oven block", isActive && "oven-active")}
+        className={clsx("oven block", option === name && "oven-active")}
         htmlFor={`oven-${name}`}
       >
         <div>

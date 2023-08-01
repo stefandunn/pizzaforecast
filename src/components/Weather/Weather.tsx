@@ -4,25 +4,14 @@ import clsx from "clsx";
 import { FC, useMemo } from "react";
 import { CgSpinnerTwoAlt } from "react-icons/cg";
 import { WeatherDay } from "./WeatherDay/WeatherDay";
-import { useRecoilValue, useRecoilValueLoadable } from "recoil";
-import { locationState } from "@/states/location.states";
+import { useRecoilValueLoadable } from "recoil";
 import { weatherState } from "@/states/weather.states";
 
 export const Weather: FC<{ className?: string }> = ({ className }) => {
   const { state, contents: weather } = useRecoilValueLoadable(weatherState);
-  const coordinates = useRecoilValue(locationState);
-
-  const { latitude, longitude }: { latitude?: number; longitude?: number } =
-    useMemo(() => {
-      if (!coordinates) {
-        return { latitude: undefined, longitude: undefined };
-      }
-
-      return coordinates;
-    }, [coordinates]);
 
   const weatherSummary = useMemo((): string => {
-    if (state !== "hasValue") {
+    if (state !== "hasValue" || !weather) {
       return "";
     }
     const conditions = weather.forecast.forecastday.map(
