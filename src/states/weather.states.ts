@@ -26,7 +26,12 @@ export const weatherState = selector<Weather>({
       const { error } = await response.json();
       throw new Error(error);
     }
-    const data = await response.json();
+    const data = (await response.json()) as Weather;
+    if (!data) {
+      return undefined;
+    }
+    const days = [...data.forecast.forecastday.slice(1)];
+    data.forecast.forecastday = days;
     return data;
   },
 });

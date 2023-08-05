@@ -1,28 +1,24 @@
 "use client";
 
-import { FC, useEffect, useRef } from "react";
+import { FC, useEffect } from "react";
 import { Selector } from "../Selector/Selector";
 import { useRecoilValue } from "recoil";
 import { selectorOptionState } from "@/states/selector.states";
 
 export const OvenSelector: FC<{ className?: string }> = ({ className }) => {
   const oven = useRecoilValue(selectorOptionState("oven"));
-  const prevOvenRef = useRef<typeof oven>(oven);
 
   useEffect(() => {
     if (!oven) {
       return;
     }
-    if (!prevOvenRef.current) {
-      prevOvenRef.current = oven;
-      const fuelSelector = document.getElementById("fuel-selector");
-      if (fuelSelector) {
-        setTimeout(() => {
-          (fuelSelector as HTMLDivElement).scrollIntoView({
-            behavior: "smooth",
-          });
-        }, 100);
-      }
+    const fuelSelector = document.getElementById("fuel-selector");
+    if (fuelSelector) {
+      setTimeout(() => {
+        (fuelSelector as HTMLDivElement).scrollIntoView({
+          behavior: "smooth",
+        });
+      }, 100);
     }
   }, [oven]);
 

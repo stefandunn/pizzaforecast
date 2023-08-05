@@ -47,7 +47,7 @@ export const Weather: FC<{ className?: string }> = ({ className }) => {
     <div className={clsx(weatherBlockStyleClass, className, "weather")}>
       <h3 className="text-lg text-center mb-3">{weatherSummary}</h3>
       <ul className="flex flex-row flex-nowrap overflow-auto sm:overflow-hidden items-stretch gap-5">
-        {weather?.forecast.forecastday.slice(1).map((dayData, index) => (
+        {weather?.forecast.forecastday.map((dayData, index) => (
           <WeatherDay {...dayData} key={index} />
         ))}
       </ul>

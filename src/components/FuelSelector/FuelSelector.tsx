@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useMemo, useRef } from "react";
+import { FC, useEffect, useMemo } from "react";
 import { Selector } from "../Selector/Selector";
 import { useRecoilValue } from "recoil";
 import { selectorOptionState } from "@/states/selector.states";
@@ -8,22 +8,18 @@ import { selectorOptionState } from "@/states/selector.states";
 export const FuelSelector: FC<{ className?: string }> = ({ className }) => {
   const oven = useRecoilValue(selectorOptionState("oven"));
   const fuel = useRecoilValue(selectorOptionState("fuel"));
-  const prevFuelRef = useRef<typeof fuel>(fuel);
 
   useEffect(() => {
     if (!fuel) {
       return;
     }
-    if (!prevFuelRef.current) {
-      prevFuelRef.current = fuel;
-      const fuelSelector = document.getElementById("button-complete");
-      if (fuelSelector) {
-        setTimeout(() => {
-          (fuelSelector as HTMLDivElement).scrollIntoView({
-            behavior: "smooth",
-          });
-        }, 100);
-      }
+    const fuelSelector = document.getElementById("button-complete");
+    if (fuelSelector) {
+      setTimeout(() => {
+        (fuelSelector as HTMLDivElement).scrollIntoView({
+          behavior: "smooth",
+        });
+      }, 100);
     }
   }, [fuel]);
 

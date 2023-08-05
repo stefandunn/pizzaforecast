@@ -13,6 +13,7 @@ export const Logo: FC = () => {
   return (
     <Link href="/" id="logo" className={clsx(isNotHome && "cursor-pointer")}>
       <Image
+        priority={isNotHome}
         src="/images/pizza-slice.png"
         width={60}
         height={60}

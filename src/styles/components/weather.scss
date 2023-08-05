@@ -1,15 +1,15 @@
 .weather {
   @apply h-auto;
+}
 
-  .weather-day {
-    @apply bg-white shadow-md p-3 rounded-lg text-center bg-opacity-25 basis-[calc(100%/1.7)] sm:basis-[calc(100%/3)] flex-shrink-0 sm:flex-shrink;
+.weather-day {
+  @apply bg-white shadow-md p-3 rounded-lg text-center bg-opacity-25 basis-[calc(100%/1.7)] sm:basis-[calc(100%/3)] flex-shrink-0 sm:flex-shrink;
 
-    .quick-stats {
-      @apply inline-flex items-center justify-between w-full mt-2 bg-pink px-3 py-2 rounded-lg;
+  .quick-stats {
+    @apply inline-flex items-center justify-between w-full mt-2 bg-pink px-3 py-2 rounded-lg;
 
-      .stat {
-        @apply flex flex-col items-center gap-1;
-      }
+    .stat {
+      @apply flex flex-col items-center gap-1;
     }
   }
 }

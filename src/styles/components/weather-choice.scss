@@ -1,0 +1,46 @@
+#weather-choice {
+  #guage {
+    @apply relative w-[200px] h-[200px] rounded-full bg-white shadow-xl overflow-hidden;
+
+    &:before {
+      @apply absolute top-0 left-0 w-full h-full rounded-full z-10;
+      content: "";
+      box-shadow: inset 0 0 10px 2px rgba(0, 0, 0, 0.8);
+    }
+
+    #guage-bg {
+      @apply absolute w-[calc(100%+1rem)] h-[calc(50%+1rem)] -left-2 -top-3 bg-gradient-to-r from-[#cf2a2a] via-[#ecc312] to-[#5fcd4a] blur-sm;
+    }
+
+    #guage-dial {
+      @apply absolute top-1/2 left-1/2 z-0 rotate-0;
+      transition-timing-function: ease-in-out;
+      transition-duration: 500ms;
+
+      &:before {
+        @apply absolute w-0 h-0 rounded-lg -top-1;
+        content: "";
+        position: absolute;
+        border: 7px solid transparent;
+        border-right: 90px solid #210544;
+        left: -95px;
+      }
+    }
+
+    #confidence-0,
+    #confidence-100 {
+      @apply absolute top-[30%] left-1/2 text-xl font-display;
+    }
+
+    #confidence-0 {
+      transform: rotate(-65deg);
+      margin-left: -101px;
+      top: 33%;
+    }
+
+    #confidence-100 {
+      transform: rotate(65deg);
+      margin-left: 54px;
+    }
+  }
+}
